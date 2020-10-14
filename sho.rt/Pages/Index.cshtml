@@ -1,0 +1,13 @@
+﻿@page "{param?}"
+@model IndexModel
+@{
+    ViewData["Title"] = "sho.rt";
+}
+
+<div class="text-center">
+    @Model.Message
+    <form method="post">
+        <input name="url"/>
+        <input type="submit" />
+    </form>
+</div>
