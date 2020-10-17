@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  short-web:
+    container_name: short-web
+    image: ${DOCKER_REGISTRY-}sho.rt
+    build:
+      context: .
+      dockerfile: sho.rt/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - short-db
+    networks:
+      - back-tier
+  short-db:
+    container_name: short-db
+    image: "mcr.microsoft.com/mssql/server:latest"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    environment:
+        SA_PASSWORD: "short@mssql"
+        ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - back-tier
+
+networks:
+  back-tier:
+    driver: bridge
+
+volumes:
+  sqlvolume:
