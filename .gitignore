@@ -433,6 +433,6 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 
-.vs/*
-obj/*
-bin/*
+.vs/
+obj/
+bin/
