@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sho.rt.Data;
 
 namespace sho.rt.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201017044730_AddShortenedUrl")]
+    partial class AddShortenedUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,13 +233,12 @@ namespace sho.rt.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShortenedUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShortenedUrl")
-                        .IsUnique()
-                        .HasFilter("[ShortenedUrl] IS NOT NULL");
+                    b.HasAlternateKey("ShortenedUrl");
 
                     b.ToTable("Mapping");
                 });

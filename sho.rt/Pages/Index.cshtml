@@ -5,9 +5,10 @@
 }
 
 <div class="text-center">
-    @Model.Message
+    @Model.ErrorMessage
     <form method="post">
-        <input name="url"/>
+        <input name="url" />
         <input type="submit" />
     </form>
+    @Model.ShortenedUrl
 </div>
