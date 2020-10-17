@@ -435,3 +435,4 @@ $RECYCLE.BIN/
 
 .vs/*
 obj/*
+bin/*
