@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using sho.rt.Data;
 using sho.rt.Model;
 
-namespace sho.rt.Areas.Backend
+namespace sho.rt.Areas.Admin
 {
     public class DetailsModel : PageModel
     {
         private readonly sho.rt.Data.ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-        public DetailsModel(sho.rt.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
+
+        public DetailsModel(sho.rt.Data.ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
         public Mapping Mapping { get; set; }
@@ -29,8 +27,8 @@ namespace sho.rt.Areas.Backend
             {
                 return NotFound();
             }
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            Mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.Id == id && m.Owner == user);
+
+            Mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Mapping == null)
             {

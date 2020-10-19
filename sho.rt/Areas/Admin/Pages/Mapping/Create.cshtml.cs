@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using sho.rt.Data;
 using sho.rt.Model;
 
-namespace sho.rt.Areas.Backend
+namespace sho.rt.Areas.Admin
 {
     public class CreateModel : PageModel
     {
         private readonly sho.rt.Data.ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-        public CreateModel(sho.rt.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
+
+        public CreateModel(sho.rt.Data.ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
         public IActionResult OnGet()
@@ -37,8 +35,7 @@ namespace sho.rt.Areas.Backend
             {
                 return Page();
             }
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            Mapping.Owner = user;
+
             _context.Mapping.Add(Mapping);
             await _context.SaveChangesAsync();
 

@@ -33,7 +33,16 @@ namespace sho.rt
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages(options =>
             {
+                options.Conventions.AuthorizeAreaFolder("Admin", "/");
                 options.Conventions.AuthorizeAreaFolder("Backend", "/");
+            });
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
             });
         }
 

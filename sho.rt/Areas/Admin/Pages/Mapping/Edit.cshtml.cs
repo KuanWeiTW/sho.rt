@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,16 +9,15 @@ using Microsoft.EntityFrameworkCore;
 using sho.rt.Data;
 using sho.rt.Model;
 
-namespace sho.rt.Areas.Backend
+namespace sho.rt.Areas.Admin
 {
     public class EditModel : PageModel
     {
         private readonly sho.rt.Data.ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-        public EditModel(sho.rt.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
+
+        public EditModel(sho.rt.Data.ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
         [BindProperty]
@@ -31,8 +29,8 @@ namespace sho.rt.Areas.Backend
             {
                 return NotFound();
             }
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            Mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.Id == id && m.Owner == user);
+
+            Mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Mapping == null)
             {
@@ -45,12 +43,6 @@ namespace sho.rt.Areas.Backend
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var target = _context.Mapping.Find(Mapping.Id);
-            if (user != target.Owner)
-            {
-                return Unauthorized();
-            }
             if (!ModelState.IsValid)
             {
                 return Page();

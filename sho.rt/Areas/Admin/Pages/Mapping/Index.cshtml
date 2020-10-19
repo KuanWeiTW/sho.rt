@@ -1,0 +1,49 @@
+﻿@page
+@model sho.rt.Areas.Admin.IndexModel
+
+@{
+    ViewData["Title"] = "Mapping";
+}
+
+<h1>Mapping</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Mapping[0].ShortenedUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mapping[0].OriginalUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mapping[0].Password)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Mapping)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortenedUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OriginalUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

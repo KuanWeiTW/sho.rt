@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,11 @@ namespace sho.rt.Areas.Backend
     public class DeleteModel : PageModel
     {
         private readonly sho.rt.Data.ApplicationDbContext _context;
-
-        public DeleteModel(sho.rt.Data.ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+        public DeleteModel(sho.rt.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -28,8 +30,8 @@ namespace sho.rt.Areas.Backend
             {
                 return NotFound();
             }
-
-            Mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.Id == id);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            Mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.Id == id && m.Owner == user);
 
             if (Mapping == null)
             {
@@ -44,7 +46,12 @@ namespace sho.rt.Areas.Backend
             {
                 return NotFound();
             }
-
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var target = _context.Mapping.Find(Mapping.Id);
+            if (user != target.Owner)
+            {
+                return Unauthorized();
+            }
             Mapping = await _context.Mapping.FindAsync(id);
 
             if (Mapping != null)
