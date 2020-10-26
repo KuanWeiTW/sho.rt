@@ -5,12 +5,12 @@
 }
 
 <div class="row justify-content-center">
-    <div class="col-8">@Model.ErrorMessage</div>
-    <div class="col-8">
+    <div class="col-12 col-md-10">@Model.ErrorMessage</div>
+    <div class="col-12 col-md-10">
         <form method="post">
             <div class="form-group">
                 <label>Url:</label>
-                <input class="form-control" name="url" />
+                <input id="url_input" class="form-control" name="url" placeholder="https://www.google.com" />
             </div>
             <div class="form-group form-check">
                 <input id="need_password_checkbox" type="checkbox" class="form-check-input" />
@@ -25,7 +25,14 @@
             </div>
         </form>
     </div>
-    <div class="col-8">@Model.ShortenedUrl</div>
+    @if (!string.IsNullOrWhiteSpace(Model.ShortenedUrl))
+    {
+        <div class="col-12 col-md-10 row align-items-center">
+            <label class="col-auto pl-0 mb-0">Shortened Url:</label>
+            <input class="form-control col" id="shortened_url_input" readonly value="@Model.ShortenedUrl" />
+            <button class="col-auto btn btn-primary" id="click_to_copy_button" onclick="clip_to_copy_shortened_url()">Click to copy!</button>
+        </div>
+    }
 </div>
 
 @section Scripts {
@@ -34,7 +41,13 @@
             need_password_checkbox.onclick = function () {
                 password_input_group.classList.toggle("d-none");
             }
+            url_input.focus();
         }
-
+        function clip_to_copy_shortened_url() {
+            shortened_url_input.select();
+            shortened_url_input.setSelectionRange(0, 99999)
+            document.execCommand("copy");
+            click_to_copy_button.innerText = "Copied";
+        }
     </script>
 }
