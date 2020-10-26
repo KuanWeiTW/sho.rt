@@ -21,14 +21,14 @@ namespace sho.rt.Areas.Admin
 
         public Mapping Mapping { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(uint? id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            Mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.Id == id);
+            Mapping = await _context.Mapping.Include(m=>m.Owner).FirstOrDefaultAsync(m => m.Id == id);
 
             if (Mapping == null)
             {

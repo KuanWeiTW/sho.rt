@@ -18,6 +18,12 @@
             @Html.DisplayFor(model => model.Mapping.Id)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Mapping.Owner.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Mapping.Owner.Email)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Mapping.ShortenedUrl)
         </dt>
         <dd class="col-sm-10">

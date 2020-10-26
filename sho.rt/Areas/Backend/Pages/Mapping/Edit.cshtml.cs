@@ -25,7 +25,7 @@ namespace sho.rt.Areas.Backend
         [BindProperty]
         public Mapping Mapping { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(uint? id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {

@@ -14,6 +14,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Mapping[0].Owner.Email)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Mapping[0].ShortenedUrl)
             </th>
             <th>
@@ -29,6 +32,9 @@
         @foreach (var item in Model.Mapping)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Owner.Email)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ShortenedUrl)
                 </td>

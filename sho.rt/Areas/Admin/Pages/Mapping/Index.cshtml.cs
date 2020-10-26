@@ -19,11 +19,11 @@ namespace sho.rt.Areas.Admin
             _context = context;
         }
 
-        public IList<Mapping> Mapping { get;set; }
+        public IList<Mapping> Mapping { get; set; }
 
         public async Task OnGetAsync()
         {
-            Mapping = await _context.Mapping.ToListAsync();
+            Mapping = await _context.Mapping.Include(m => m.Owner).ToListAsync();
         }
     }
 }
