@@ -39,7 +39,7 @@
                     @Html.DisplayFor(modelItem => item.ShortenedUrl)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OriginalUrl)
+                    <a href="@item.OriginalUrl">Link</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Password)

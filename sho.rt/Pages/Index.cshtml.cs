@@ -34,7 +34,7 @@ namespace sho.rt.Pages
             }
             else
             {
-                var mapping = _context.Mapping.FirstOrDefault(m => m.ShortenedUrl == shortenedUrl);
+                var mapping = _context.Mapping.Find(shortenedUrl.FromBase62<int>());
                 if (mapping == null)
                 {
                     ErrorMessage = "Not Found";
@@ -63,15 +63,11 @@ namespace sho.rt.Pages
                 Mapping mapping = new Mapping
                 {
                     OriginalUrl = url,
-                    ShortenedUrl = Guid.NewGuid().ToString(),
                     Password = password,
                     Owner = await _userManager.GetUserAsync(HttpContext.User)
                 };
 
                 _context.Add(mapping);
-                await _context.SaveChangesAsync();
-                mapping.ShortenedUrl = mapping.Id.ToBase62();
-                _context.Update(mapping);
                 await _context.SaveChangesAsync();
                 ShortenedUrl = Url.Page("/Index", null, new { }, protocol: Request.Scheme) + mapping.ShortenedUrl;
             }

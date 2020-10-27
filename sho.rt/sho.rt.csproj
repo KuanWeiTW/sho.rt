@@ -13,6 +13,8 @@
     <Compile Remove="Data\Migrations\20201014064138_Mapping.Designer.cs" />
     <Compile Remove="Data\Migrations\20201017041428_AddShortenedUrl.cs" />
     <Compile Remove="Data\Migrations\20201017041428_AddShortenedUrl.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201027164342_ChangeSchemaToIdOnly.cs" />
+    <Compile Remove="Data\Migrations\20201027164342_ChangeSchemaToIdOnly.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

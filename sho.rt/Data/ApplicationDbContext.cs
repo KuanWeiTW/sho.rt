@@ -20,9 +20,6 @@ namespace sho.rt.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Mapping>().HasIndex(o => o.ShortenedUrl).IsUnique();
-            modelBuilder.Entity<Mapping>().Property(o => o.Id)
-                .UseIdentityColumn(seed: 1000, increment: 1);
         }
         public DbSet<sho.rt.Model.Mapping> Mapping { get; set; }
 
