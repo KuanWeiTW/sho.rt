@@ -40,7 +40,7 @@ namespace sho.rt.Areas.Backend
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(uint? id)
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)
             {

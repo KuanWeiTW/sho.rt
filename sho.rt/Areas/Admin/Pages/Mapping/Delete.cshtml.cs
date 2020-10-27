@@ -40,7 +40,7 @@ namespace sho.rt.Areas.Admin
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(uint? id)
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)
             {
