@@ -24,7 +24,7 @@ namespace sho.rt.Areas.Admin
         [BindProperty]
         public Mapping Mapping { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(long? id)
         {
             if (id == null)
             {
@@ -40,7 +40,7 @@ namespace sho.rt.Areas.Admin
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(long? id)
         {
             if (id == null)
             {

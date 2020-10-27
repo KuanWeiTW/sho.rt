@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Base62;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using sho.rt.Data;
+using sho.rt.Helper;
 using sho.rt.Model;
 
 namespace sho.rt.Pages
@@ -34,7 +34,7 @@ namespace sho.rt.Pages
             }
             else
             {
-                var mapping = _context.Mapping.Find(shortenedUrl.FromBase62<int>());
+                var mapping = _context.Mapping.Find(Base62.Decode(shortenedUrl));
                 if (mapping == null)
                 {
                     ErrorMessage = "Not Found";

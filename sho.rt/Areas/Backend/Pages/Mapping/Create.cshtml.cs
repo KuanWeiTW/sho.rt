@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using sho.rt.Data;
 using sho.rt.Model;
 
@@ -42,7 +43,17 @@ namespace sho.rt.Areas.Backend
             var user = await _userManager.GetUserAsync(HttpContext.User);
             Mapping.Owner = user;
             _context.Mapping.Add(Mapping);
-            await _context.SaveChangesAsync();
+            await _context.Database.OpenConnectionAsync();
+            try
+            {
+                await _context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Mapping ON");
+                await _context.SaveChangesAsync();
+                await _context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Mapping OFF");
+            }
+            finally
+            {
+                await _context.Database.CloseConnectionAsync();
+            }
 
             return RedirectToPage("./Index");
         }

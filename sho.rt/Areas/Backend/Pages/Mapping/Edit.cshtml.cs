@@ -77,7 +77,7 @@ namespace sho.rt.Areas.Backend
             return RedirectToPage("./Index");
         }
 
-        private bool MappingExists(int id)
+        private bool MappingExists(Int64 id)
         {
             return _context.Mapping.Any(e => e.Id == id);
         }
