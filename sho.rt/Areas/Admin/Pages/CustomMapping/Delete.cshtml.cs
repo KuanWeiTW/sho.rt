@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using sho.rt.Data;
 using sho.rt.Model;
 
-namespace sho.rt.Areas.Admin.Pages.Mapping
+namespace sho.rt.Areas.Admin.Pages.CustomMapping
 {
     [Authorize(Policy = "RequireAdministratorRole")]
     public class DeleteModel : PageModel
@@ -22,7 +22,7 @@ namespace sho.rt.Areas.Admin.Pages.Mapping
         }
 
         [BindProperty]
-        public Model.Mapping Mapping { get; set; }
+        public Model.CustomMapping CustomMapping { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
@@ -31,9 +31,10 @@ namespace sho.rt.Areas.Admin.Pages.Mapping
                 return NotFound();
             }
 
-            Mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.Id == id);
+            CustomMapping = await _context.CustomMapping
+                .Include(c => c.Owner).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Mapping == null)
+            if (CustomMapping == null)
             {
                 return NotFound();
             }
@@ -47,11 +48,11 @@ namespace sho.rt.Areas.Admin.Pages.Mapping
                 return NotFound();
             }
 
-            Mapping = await _context.Mapping.FindAsync(id);
+            CustomMapping = await _context.CustomMapping.FindAsync(id);
 
-            if (Mapping != null)
+            if (CustomMapping != null)
             {
-                _context.Mapping.Remove(Mapping);
+                _context.CustomMapping.Remove(CustomMapping);
                 await _context.SaveChangesAsync();
             }
 

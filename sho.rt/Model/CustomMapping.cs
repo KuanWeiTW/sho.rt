@@ -10,15 +10,15 @@ using sho.rt.Helper;
 
 namespace sho.rt.Model
 {
-    public class Mapping
+    public class CustomMapping
     {
-        [Range(1, 14776335)]
+        [Range(1477633, 839299365868340223)]
         public Int64 Id { get; set; }
 
         public string Password { get; set; }
 
         [RegularExpression(@"^[a-zA-Z0-9_.-]*$", ErrorMessage = "Please input letters and numbers only.")]
-        [StringLength(4, MinimumLength = 1)]
+        [StringLength(10, MinimumLength = 5)]
         [NotMapped]
         public string ShortenedUrl
         {

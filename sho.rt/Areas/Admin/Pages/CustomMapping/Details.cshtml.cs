@@ -2,37 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using sho.rt.Data;
 using sho.rt.Model;
 
-namespace sho.rt.Areas.Backend.Pages.Mapping
+namespace sho.rt.Areas.Admin.Pages.CustomMapping
 {
+    [Authorize(Policy = "RequireAdministratorRole")]
     public class DetailsModel : PageModel
     {
         private readonly sho.rt.Data.ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-        public DetailsModel(sho.rt.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
+
+        public DetailsModel(sho.rt.Data.ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
-        public Model.Mapping Mapping { get; set; }
+        public Model.CustomMapping CustomMapping { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(long? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            Mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.Id == id && m.Owner == user);
 
-            if (Mapping == null)
+            CustomMapping = await _context.CustomMapping
+                .Include(c => c.Owner).FirstOrDefaultAsync(m => m.Id == id);
+
+            if (CustomMapping == null)
             {
                 return NotFound();
             }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using sho.rt.Data;
 using sho.rt.Model;
 
-namespace sho.rt.Areas.Backend
+namespace sho.rt.Areas.Backend.Pages.Mapping
 {
     public class EditModel : PageModel
     {
@@ -23,7 +23,7 @@ namespace sho.rt.Areas.Backend
         }
 
         [BindProperty]
-        public Mapping Mapping { get; set; }
+        public Model.Mapping Mapping { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

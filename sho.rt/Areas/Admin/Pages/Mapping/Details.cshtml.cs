@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using sho.rt.Data;
 using sho.rt.Model;
 
-namespace sho.rt.Areas.Admin
+namespace sho.rt.Areas.Admin.Pages.Mapping
 {
     [Authorize(Policy = "RequireAdministratorRole")]
     public class DetailsModel : PageModel
@@ -21,7 +21,7 @@ namespace sho.rt.Areas.Admin
             _context = context;
         }
 
-        public Mapping Mapping { get; set; }
+        public Model.Mapping Mapping { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

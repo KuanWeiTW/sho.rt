@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using sho.rt.Data;
 using sho.rt.Model;
 
-namespace sho.rt.Areas.Admin
+namespace sho.rt.Areas.Admin.Pages.CustomMapping
 {
     [Authorize(Policy = "RequireAdministratorRole")]
     public class CreateModel : PageModel
@@ -24,11 +24,12 @@ namespace sho.rt.Areas.Admin
 
         public IActionResult OnGet()
         {
+            ViewData["Owner"] = new SelectList(_context.Users, "Id", "Email");
             return Page();
         }
 
         [BindProperty]
-        public Mapping Mapping { get; set; }
+        public Model.CustomMapping CustomMapping { get; set; }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
@@ -38,13 +39,14 @@ namespace sho.rt.Areas.Admin
             {
                 return Page();
             }
-            _context.Mapping.Add(Mapping);
+
+            _context.CustomMapping.Add(CustomMapping);
             await _context.Database.OpenConnectionAsync();
             try
             {
-                await _context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Mapping ON");
+                await _context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.CustomMapping ON");
                 await _context.SaveChangesAsync();
-                await _context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Mapping OFF");
+                await _context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.CustomMapping OFF");
             }
             finally
             {

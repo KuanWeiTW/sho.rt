@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using sho.rt.Data;
 using sho.rt.Model;
 
-namespace sho.rt.Areas.Backend.Pages.Mapping
+namespace sho.rt.Areas.Backend.Pages.CustomMapping
 {
     public class DetailsModel : PageModel
     {
@@ -21,18 +21,19 @@ namespace sho.rt.Areas.Backend.Pages.Mapping
             _userManager = userManager;
         }
 
-        public Model.Mapping Mapping { get; set; }
+        public Model.CustomMapping CustomMapping { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(long? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            Mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.Id == id && m.Owner == user);
 
-            if (Mapping == null)
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            CustomMapping = await _context.CustomMapping.FirstOrDefaultAsync(m => m.Id == id && m.Owner == user);
+
+            if (CustomMapping == null)
             {
                 return NotFound();
             }

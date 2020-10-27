@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using sho.rt.Data;
 using sho.rt.Model;
 
-namespace sho.rt.Areas.Admin.Pages.Mapping
+namespace sho.rt.Areas.Admin.Pages.CustomMapping
 {
     [Authorize(Policy = "RequireAdministratorRole")]
     public class EditModel : PageModel
@@ -23,21 +23,23 @@ namespace sho.rt.Areas.Admin.Pages.Mapping
         }
 
         [BindProperty]
-        public Model.Mapping Mapping { get; set; }
+        public Model.CustomMapping CustomMapping { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(long? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            Mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.Id == id);
+            CustomMapping = await _context.CustomMapping
+                .Include(c => c.Owner).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Mapping == null)
+            if (CustomMapping == null)
             {
                 return NotFound();
             }
+           ViewData["Owner"] = new SelectList(_context.Users, "Id", "Email");
             return Page();
         }
 
@@ -50,7 +52,7 @@ namespace sho.rt.Areas.Admin.Pages.Mapping
                 return Page();
             }
 
-            _context.Attach(Mapping).State = EntityState.Modified;
+            _context.Attach(CustomMapping).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +60,7 @@ namespace sho.rt.Areas.Admin.Pages.Mapping
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MappingExists(Mapping.Id))
+                if (!CustomMappingExists(CustomMapping.Id))
                 {
                     return NotFound();
                 }
@@ -71,9 +73,9 @@ namespace sho.rt.Areas.Admin.Pages.Mapping
             return RedirectToPage("./Index");
         }
 
-        private bool MappingExists(Int64 id)
+        private bool CustomMappingExists(long id)
         {
-            return _context.Mapping.Any(e => e.Id == id);
+            return _context.CustomMapping.Any(e => e.Id == id);
         }
     }
 }

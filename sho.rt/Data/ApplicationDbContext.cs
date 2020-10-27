@@ -37,5 +37,7 @@ namespace sho.rt.Data
                 return new ApplicationDbContext(builder.Options);
             }
         }
+
+        public DbSet<sho.rt.Model.CustomMapping> CustomMapping { get; set; }
     }
 }

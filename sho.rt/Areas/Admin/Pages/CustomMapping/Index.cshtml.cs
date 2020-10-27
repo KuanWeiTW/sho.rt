@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using sho.rt.Data;
 using sho.rt.Model;
 
-namespace sho.rt.Areas.Admin.Pages.Mapping
+namespace sho.rt.Areas.Admin.Pages.CustomMapping
 {
     [Authorize(Policy = "RequireAdministratorRole")]
     public class IndexModel : PageModel
@@ -21,11 +21,12 @@ namespace sho.rt.Areas.Admin.Pages.Mapping
             _context = context;
         }
 
-        public IList<Model.Mapping> Mapping { get; set; }
+        public IList<Model.CustomMapping> CustomMapping { get;set; }
 
         public async Task OnGetAsync()
         {
-            Mapping = await _context.Mapping.Include(m => m.Owner).ToListAsync();
+            CustomMapping = await _context.CustomMapping
+                .Include(c => c.Owner).ToListAsync();
         }
     }
 }
