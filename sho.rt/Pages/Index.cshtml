@@ -37,7 +37,7 @@
 
 @section Scripts {
     <script type="text/javascript">
-        window.onload = function () {
+        window.onpageshow = function () {
             input_form.reset();
             need_password_checkbox.onclick = function () {
                 password_input_group.classList.toggle("d-none");
