@@ -40,7 +40,7 @@ namespace sho.rt.Pages
                     ErrorMessage = "Not Found";
                     return Page();
                 }
-                if(!string.IsNullOrWhiteSpace(mapping.Password))
+                if (!string.IsNullOrWhiteSpace(mapping.Password))
                 {
                     return RedirectToPage("./VerifyPassword", new { shortenedUrl = shortenedUrl });
                 }
@@ -69,7 +69,7 @@ namespace sho.rt.Pages
 
                 _context.Add(mapping);
                 await _context.SaveChangesAsync();
-                ShortenedUrl = Url.Page("/Index", null, new { }, protocol: Request.Scheme) + mapping.ShortenedUrl;
+                ShortenedUrl = Url.Page("/Index", null, new { shortenedUrl = "" }, protocol: Request.Scheme) + mapping.ShortenedUrl;
             }
             return Page();
         }
