@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +12,7 @@ using sho.rt.Model;
 
 namespace sho.rt.Areas.Backend
 {
+    [Authorize(Policy = "RequireCanCustomizeRole")]
     public class CreateModel : PageModel
     {
         private readonly sho.rt.Data.ApplicationDbContext _context;

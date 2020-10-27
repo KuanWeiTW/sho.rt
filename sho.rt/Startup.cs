@@ -38,6 +38,8 @@ namespace sho.rt
             {
                 options.AddPolicy("RequireAdministratorRole",
                      policy => policy.RequireRole("Administrator"));
+                options.AddPolicy("RequireCanCustomizeRole",
+                     policy => policy.RequireRole("CanCustomize"));
             });
             services.AddRazorPages(options =>
             {

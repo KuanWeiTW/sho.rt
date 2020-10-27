@@ -14,11 +14,7 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Mapping.Id" />
-            <div class="form-group">
-                <label asp-for="Mapping.ShortenedUrl" class="control-label"></label>
-                <input asp-for="Mapping.ShortenedUrl" class="form-control" />
-                <span asp-validation-for="Mapping.ShortenedUrl" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="Mapping.ShortenedUrl" />
             <div class="form-group">
                 <label asp-for="Mapping.OriginalUrl" class="control-label"></label>
                 <input asp-for="Mapping.OriginalUrl" class="form-control" />
