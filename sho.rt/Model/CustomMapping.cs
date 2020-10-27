@@ -12,7 +12,7 @@ namespace sho.rt.Model
 {
     public class CustomMapping
     {
-        [Range(1477633, 839299365868340223)]
+        [Range(14776334, 839299365868340223)]
         public Int64 Id { get; set; }
 
         public string Password { get; set; }
@@ -20,6 +20,7 @@ namespace sho.rt.Model
         [RegularExpression(@"^[a-zA-Z0-9_.-]*$", ErrorMessage = "Please input letters and numbers only.")]
         [StringLength(10, MinimumLength = 5)]
         [NotMapped]
+        [Required]
         public string ShortenedUrl
         {
             get => Base62.Encode(Id);

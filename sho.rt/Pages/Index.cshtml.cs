@@ -34,17 +34,34 @@ namespace sho.rt.Pages
             }
             else
             {
-                var mapping = _context.Mapping.Find(Base62.Decode(shortenedUrl));
-                if (mapping == null)
+                if (shortenedUrl.Length > 4)
                 {
-                    ErrorMessage = "Not Found";
-                    return Page();
+                    var mapping = _context.CustomMapping.Find(Base62.Decode(shortenedUrl));
+                    if (mapping == null)
+                    {
+                        ErrorMessage = "Not Found";
+                        return Page();
+                    }
+                    if (!string.IsNullOrWhiteSpace(mapping.Password))
+                    {
+                        return RedirectToPage("./VerifyPassword", new { shortenedUrl = shortenedUrl });
+                    }
+                    return Redirect(mapping.OriginalUrl);
                 }
-                if (!string.IsNullOrWhiteSpace(mapping.Password))
+                else
                 {
-                    return RedirectToPage("./VerifyPassword", new { shortenedUrl = shortenedUrl });
+                    var mapping = _context.Mapping.Find(Base62.Decode(shortenedUrl));
+                    if (mapping == null)
+                    {
+                        ErrorMessage = "Not Found";
+                        return Page();
+                    }
+                    if (!string.IsNullOrWhiteSpace(mapping.Password))
+                    {
+                        return RedirectToPage("./VerifyPassword", new { shortenedUrl = shortenedUrl });
+                    }
+                    return Redirect(mapping.OriginalUrl);
                 }
-                return Redirect(mapping.OriginalUrl);
             }
         }
 
