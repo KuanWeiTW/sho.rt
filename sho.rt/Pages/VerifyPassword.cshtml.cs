@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using sho.rt.Data;
+using sho.rt.Helper;
 using sho.rt.Model;
 
 namespace sho.rt.Pages
@@ -34,20 +35,41 @@ namespace sho.rt.Pages
 
         public async Task<IActionResult> OnPost(string shortenedUrl, string password)
         {
-            var mapping = await _context.Mapping.FirstOrDefaultAsync(m => m.ShortenedUrl == shortenedUrl);
-            if (mapping == null)
+            if (shortenedUrl.Length > 4)
             {
-                return NotFound();
-            }
-            else if (mapping.Password == password)
-            {
-                return Redirect(mapping.OriginalUrl);
+                var mapping = await _context.CustomMapping.FindAsync(Base62.Decode(shortenedUrl));
+                if (mapping == null)
+                {
+                    return NotFound();
+                }
+                else if (mapping.Password == password)
+                {
+                    return Redirect(mapping.OriginalUrl);
+                }
+                else
+                {
+                    ShortenedUrl = shortenedUrl;
+                    ErrorMessage = "Wrong Password!";
+                    return Page();
+                }
             }
             else
             {
-                ShortenedUrl = shortenedUrl;
-                ErrorMessage = "Wrong Password!";
-                return Page();
+                var mapping = await _context.Mapping.FindAsync(Base62.Decode(shortenedUrl));
+                if (mapping == null)
+                {
+                    return NotFound();
+                }
+                else if (mapping.Password == password)
+                {
+                    return Redirect(mapping.OriginalUrl);
+                }
+                else
+                {
+                    ShortenedUrl = shortenedUrl;
+                    ErrorMessage = "Wrong Password!";
+                    return Page();
+                }
             }
         }
     }
