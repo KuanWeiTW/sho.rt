@@ -3,5 +3,25 @@
 @{
     ViewData["Title"] = "Portal";
 }
-<div><a asp-page="/Mapping/Index">Mapping</a></div>
-<div><a asp-page="/CustomMapping/Index">CustomMapping</a></div>
+<div class="row">
+    <div class="col-12 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Mapping</h5>
+                <p class="card-text">Manage Mappings</p>
+            </div>
+            <a asp-page="/Mapping/Index" class="card-block stretched-link text-decoration-none"></a>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="card">
+
+            <div class="card-body">
+                <h5 class="card-title">Custom Mapping</h5>
+                <p class="card-text">Manage Custom Mappings</p>
+            </div>
+            <a asp-page="/CustomMapping/Index" class="card-block stretched-link text-decoration-none"></a>
+        </div>
+    </div>
+
+</div>

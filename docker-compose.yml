@@ -19,7 +19,7 @@ services:
     volumes:
       - sqlvolume:/var/opt/mssql
     environment:
-        SA_PASSWORD: "short@mssql"
+        SA_PASSWORD: "short@Mssql"
         ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
