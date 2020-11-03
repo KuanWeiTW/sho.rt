@@ -12,13 +12,13 @@ namespace sho.rt.Model
 {
     public class CustomMapping
     {
-        [Range(14776334, 839299365868340223)]
+        [Range(26 * 26 * 26 * 26 * 26, Int64.MaxValue)]
         public Int64 Id { get; set; }
 
         public string Password { get; set; }
 
         [RegularExpression(@"^[a-zA-Z0-9_.-]*$", ErrorMessage = "Please input letters and numbers only.")]
-        [StringLength(10, MinimumLength = 5)]
+        [StringLength(10, MinimumLength = 6)]
         [NotMapped]
         [Required]
         public string ShortenedUrl

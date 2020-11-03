@@ -35,7 +35,7 @@ namespace sho.rt.Pages
 
         public async Task<IActionResult> OnPost(string shortenedUrl, string password)
         {
-            if (shortenedUrl.Length > 4)
+            if (shortenedUrl.Length > 5)
             {
                 var mapping = await _context.CustomMapping.FindAsync(Base62.Decode(shortenedUrl));
                 if (mapping == null)

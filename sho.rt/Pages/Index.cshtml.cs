@@ -35,7 +35,7 @@ namespace sho.rt.Pages
             }
             else
             {
-                if (shortenedUrl.Length > 4)
+                if (shortenedUrl.Length > 5)
                 {
                     var mapping = _context.CustomMapping.Find(Base62.Decode(shortenedUrl));
                     if (mapping == null)
