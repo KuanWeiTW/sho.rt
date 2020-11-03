@@ -14,6 +14,7 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Mapping.Id" />
+            <input type="hidden" asp-for="Mapping.OwnerId" />
             <div class="form-group">
                 <label asp-for="Mapping.OriginalUrl" class="control-label"></label>
                 <input asp-for="Mapping.OriginalUrl" class="form-control" />

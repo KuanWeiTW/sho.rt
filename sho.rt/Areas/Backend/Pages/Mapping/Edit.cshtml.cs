@@ -56,7 +56,7 @@ namespace sho.rt.Areas.Backend.Pages.Mapping
             {
                 return Page();
             }
-
+            Mapping.OwnerId = target.OwnerId;
             _context.Attach(Mapping).State = EntityState.Modified;
 
             try
