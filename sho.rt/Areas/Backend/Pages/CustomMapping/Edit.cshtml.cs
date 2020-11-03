@@ -47,7 +47,7 @@ namespace sho.rt.Areas.Backend.Pages.CustomMapping
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var target = _context.Mapping.Find(CustomMapping.Id);
+            var target = _context.CustomMapping.Find(CustomMapping.Id);
             _context.Entry(target).State = EntityState.Detached;
             if (user != target.Owner)
             {
