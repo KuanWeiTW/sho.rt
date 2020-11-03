@@ -47,6 +47,7 @@ namespace sho.rt.Areas.Backend.Pages.Mapping
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var target = _context.Mapping.Find(Mapping.Id);
+            _context.Entry(target).State = EntityState.Detached;
             if (user != target.Owner)
             {
                 return Unauthorized();

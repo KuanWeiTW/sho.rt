@@ -48,6 +48,7 @@ namespace sho.rt.Areas.Backend.Pages.CustomMapping
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var target = _context.Mapping.Find(CustomMapping.Id);
+            _context.Entry(target).State = EntityState.Detached;
             if (user != target.Owner)
             {
                 return Unauthorized();
