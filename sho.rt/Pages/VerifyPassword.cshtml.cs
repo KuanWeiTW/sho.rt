@@ -44,7 +44,7 @@ namespace sho.rt.Pages
                 }
                 else if (mapping.Password == password)
                 {
-                    return Redirect(mapping.OriginalUrl);
+                    return Redirect(mapping.Original);
                 }
                 else
                 {
@@ -62,7 +62,7 @@ namespace sho.rt.Pages
                 }
                 else if (mapping.Password == password)
                 {
-                    return Redirect(mapping.OriginalUrl);
+                    return Redirect(mapping.Original);
                 }
                 else
                 {

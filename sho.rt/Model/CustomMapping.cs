@@ -27,7 +27,7 @@ namespace sho.rt.Model
             set => Id = Base62.Decode(value);
         }
 
-        public string OriginalUrl { get; set; }
+        public string Original { get; set; }
 
         public string OwnerId { get; set; }
 

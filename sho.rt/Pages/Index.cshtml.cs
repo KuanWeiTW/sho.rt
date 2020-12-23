@@ -47,7 +47,7 @@ namespace sho.rt.Pages
                     {
                         return RedirectToPage("./VerifyPassword", new { shortenedUrl = shortenedUrl });
                     }
-                    return Redirect(mapping.OriginalUrl);
+                    return Redirect(mapping.Original);
                 }
                 else
                 {
@@ -61,7 +61,7 @@ namespace sho.rt.Pages
                     {
                         return RedirectToPage("./VerifyPassword", new { shortenedUrl = shortenedUrl });
                     }
-                    return Redirect(mapping.OriginalUrl);
+                    return Redirect(mapping.Original);
                 }
             }
         }
@@ -80,7 +80,7 @@ namespace sho.rt.Pages
             {
                 Mapping mapping = new Mapping
                 {
-                    OriginalUrl = url,
+                    Original = url,
                     Password = password,
                     Owner = await _userManager.GetUserAsync(HttpContext.User)
                 };

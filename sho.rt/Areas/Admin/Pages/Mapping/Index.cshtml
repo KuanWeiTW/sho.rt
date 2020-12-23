@@ -17,7 +17,7 @@
                 @Html.DisplayNameFor(model => model.Mapping[0].ShortenedUrl)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mapping[0].OriginalUrl)
+                @Html.DisplayNameFor(model => model.Mapping[0].Original)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Mapping[0].Password)
@@ -36,7 +36,7 @@
                     @Html.DisplayFor(modelItem => item.ShortenedUrl)
                 </td>
                 <td>
-                    <a href="@item.OriginalUrl">Link</a>
+                    <a href="@item.Original">Link</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Password)
