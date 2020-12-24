@@ -33,4 +33,10 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Pages\Image - Copy.cshtml.cs">
+      <DependentUpon>Image.cshtml.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

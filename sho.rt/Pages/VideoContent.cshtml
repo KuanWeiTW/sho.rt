@@ -1,0 +1,10 @@
+﻿@page "{shortenedUrl?}"
+@model sho.rt.Pages.VideoModel
+@{
+    ViewData["Title"] = "sho.rt";
+}
+<div class="text-center vh-80">
+    <video autoplay controls preload="auto" controlsList="nodownload" oncontextmenu="return false;">
+        <source src="@Model.VideoSource" type="@Model.VideoType" />
+    </video>
+</div>

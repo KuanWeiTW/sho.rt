@@ -59,7 +59,7 @@
                         <input id="image_input" class="w-100" type="file" name="image" accept="image/*" />
                         <i class="fa fa-upload"></i> Upload Image
                     </label>
-                    <img id="image_previewer" class="contain vh-25 w-100" />
+                    <img id="image_previewer" class="contain vh-80 d-none w-100" />
                     <div class="form-group form-check">
                         <input id="need_password_checkbox_image" type="checkbox" class="form-check-input" />
                         <label class="form-check-label">Need Password?</label>
@@ -74,7 +74,29 @@
                 </form>
             </div>
         </div>
-        <div class="tab-pane fade" id="video_tab_content" role="tabpanel" aria-labelledby="video-tab"></div>
+        <div class="tab-pane fade" id="video_tab_content" role="tabpanel" aria-labelledby="video-tab">
+            <div class="w-100">
+                <form id="input_form_video" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="type" value="video" />
+                    <label class="custom-file-upload w-100">
+                        <input id="video_input" class="w-100" type="file" name="video" accept="video/*" />
+                        <i class="fa fa-upload"></i> Upload Video
+                    </label>
+                    <video id="video_previewer" class="contain vh-80 d-none w-100"></video>
+                    <div class="form-group form-check">
+                        <input id="need_password_checkbox_video" type="checkbox" class="form-check-input" />
+                        <label class="form-check-label">Need Password?</label>
+                    </div>
+                    <div class="form-group d-none" id="password_input_group_video">
+                        <label>Password:</label>
+                        <input class="form-control" name="password" />
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-primary" type="submit" />
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
 
@@ -91,8 +113,13 @@
             need_password_checkbox_image.onclick = function () {
                 password_input_group_image.classList.toggle("d-none");
             }
+            input_form_video.reset();
+            need_password_checkbox_video.onclick = function () {
+                password_input_group_video.classList.toggle("d-none");
+            }
             url_input.focus();
             initImagePreviewer();
+            initVideoPreviewer();
         }
         function clip_to_copy_shortened_url() {
             shortened_url_input.select();
@@ -106,7 +133,25 @@
                 if (!files.length) return;
                 const reader = new FileReader();
                 reader.onload = function (e) {
+                    image_previewer.classList.remove("d-none");
                     image_previewer.src = e.target.result;
+                };
+
+                reader.readAsDataURL(files[0]);
+            });
+        }
+        function initVideoPreviewer() {
+            const videoSource = document.createElement('source');
+            video_input.addEventListener('change', function () {
+                const files = this.files || [];
+                if (!files.length) return;
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    video_previewer.classList.remove("d-none");
+                    videoSource.setAttribute('src', e.target.result);
+                    video_previewer.appendChild(videoSource);
+                    video_previewer.load();
+                    video_previewer.play();
                 };
 
                 reader.readAsDataURL(files[0]);

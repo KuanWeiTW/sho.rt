@@ -71,11 +71,11 @@ namespace sho.rt.Pages
                     }
                     else if (mapping.MappingType == MappingType.IMAGE)
                     {
-                        return RedirectToPage("./Image", new { shortenedUrl = shortenedUrl });
+                        return RedirectToPage("./ImageContent", new { shortenedUrl = shortenedUrl });
                     }
                     else if (mapping.MappingType == MappingType.VIDEO)
                     {
-                        return RedirectToPage("./Video", new { shortenedUrl = shortenedUrl });
+                        return RedirectToPage("./VideoContent", new { shortenedUrl = shortenedUrl });
                     }
                     else
                     {
@@ -142,6 +142,29 @@ namespace sho.rt.Pages
             }
             else if (type == "video")
             {
+                if (video == null)
+                {
+                    ErrorMessage = "video is empty";
+                }
+                else
+                {
+                    string stored_name = System.IO.Path.Combine(FILE_STORE, Guid.NewGuid() + Path.GetExtension(video.FileName));
+                    using (Stream fileStream = new FileStream(stored_name, FileMode.Create, FileAccess.Write))
+                    {
+                        await video.CopyToAsync(fileStream);
+                    }
+                    Mapping mapping = new Mapping
+                    {
+                        MappingType = MappingType.VIDEO,
+                        Original = stored_name,
+                        Password = password,
+                        Owner = await _userManager.GetUserAsync(HttpContext.User)
+                    };
+
+                    _context.Add(mapping);
+                    await _context.SaveChangesAsync();
+                    ShortenedUrl = Url.Page("/Index", null, new { shortenedUrl = "" }, protocol: Request.Scheme) + mapping.ShortenedUrl;
+                }
                 return Page();
             }
             return BadRequest();

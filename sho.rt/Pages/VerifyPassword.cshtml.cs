@@ -39,11 +39,11 @@ namespace sho.rt.Pages
                 }
                 else if (mapping.MappingType == MappingType.IMAGE)
                 {
-                    FormAction = "/Image";
+                    FormAction = "/ImageContent";
                 }
                 else if(mapping.MappingType==MappingType.VIDEO)
                 {
-                    FormAction = "/Video";
+                    FormAction = "/VideoContent";
                 }
             }
             else
@@ -55,11 +55,11 @@ namespace sho.rt.Pages
                 }
                 else if (mapping.MappingType == MappingType.IMAGE)
                 {
-                    FormAction = "/Image";
+                    FormAction = "/ImageContent";
                 }
                 else if (mapping.MappingType == MappingType.VIDEO)
                 {
-                    FormAction = "/Video";
+                    FormAction = "/VideoContent";
                 }
             }
             ShortenedUrl = shortenedUrl;
