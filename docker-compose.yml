@@ -7,6 +7,8 @@ services:
     build:
       context: .
       dockerfile: sho.rt/Dockerfile
+    volumes:
+      - filevolume:/file
     ports:
       - "80:80"
     depends_on:
@@ -32,3 +34,4 @@ networks:
 
 volumes:
   sqlvolume:
+  filevolume:

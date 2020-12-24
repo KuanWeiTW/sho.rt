@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,6 +20,8 @@ namespace sho.rt.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+
+        private readonly static string FILE_STORE = "/file";
         public string ErrorMessage { get; private set; } = "";
         public string ShortenedUrl { get; private set; } = "";
         public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context, UserManager<IdentityUser> userManager)
@@ -61,35 +65,86 @@ namespace sho.rt.Pages
                     {
                         return RedirectToPage("./VerifyPassword", new { shortenedUrl = shortenedUrl });
                     }
-                    return Redirect(mapping.Original);
+                    if (mapping.MappingType == MappingType.URL)
+                    {
+                        return Redirect(mapping.Original);
+                    }
+                    else if (mapping.MappingType == MappingType.IMAGE)
+                    {
+                        return RedirectToPage("./Image", new { shortenedUrl = shortenedUrl });
+                    }
+                    else if (mapping.MappingType == MappingType.VIDEO)
+                    {
+                        return RedirectToPage("./Video", new { shortenedUrl = shortenedUrl });
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
                 }
             }
         }
 
-        public async Task<IActionResult> OnPost(string url, string password)
+        public async Task<IActionResult> OnPost(string type, string url, IFormFile image, IFormFile video, string password)
         {
-            if (url == null)
+            if (type == "url")
             {
-                ErrorMessage = "url is empty";
-            }
-            else if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
-            {
-                ErrorMessage = "url is invalid";
-            }
-            else
-            {
-                Mapping mapping = new Mapping
+                if (url == null)
                 {
-                    Original = url,
-                    Password = password,
-                    Owner = await _userManager.GetUserAsync(HttpContext.User)
-                };
+                    ErrorMessage = "url is empty";
+                }
+                else if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                {
+                    ErrorMessage = "url is invalid";
+                }
+                else
+                {
+                    Mapping mapping = new Mapping
+                    {
+                        MappingType=MappingType.URL,
+                        Original = url,
+                        Password = password,
+                        Owner = await _userManager.GetUserAsync(HttpContext.User)
+                    };
 
-                _context.Add(mapping);
-                await _context.SaveChangesAsync();
-                ShortenedUrl = Url.Page("/Index", null, new { shortenedUrl = "" }, protocol: Request.Scheme) + mapping.ShortenedUrl;
+                    _context.Add(mapping);
+                    await _context.SaveChangesAsync();
+                    ShortenedUrl = Url.Page("/Index", null, new { shortenedUrl = "" }, protocol: Request.Scheme) + mapping.ShortenedUrl;
+                }
+                return Page();
             }
-            return Page();
+            else if (type == "image")
+            {
+                if (image == null)
+                {
+                    ErrorMessage = "image is empty";
+                }
+                else
+                {
+                    string stored_name = System.IO.Path.Combine(FILE_STORE, Guid.NewGuid() + Path.GetExtension(image.FileName));
+                    using (Stream fileStream = new FileStream(stored_name, FileMode.Create, FileAccess.Write))
+                    {
+                        await image.CopyToAsync(fileStream);
+                    }
+                    Mapping mapping = new Mapping
+                    {
+                        MappingType = MappingType.IMAGE,
+                        Original = stored_name,
+                        Password = password,
+                        Owner = await _userManager.GetUserAsync(HttpContext.User)
+                    };
+
+                    _context.Add(mapping);
+                    await _context.SaveChangesAsync();
+                    ShortenedUrl = Url.Page("/Index", null, new { shortenedUrl = "" }, protocol: Request.Scheme) + mapping.ShortenedUrl;
+                }
+                return Page();
+            }
+            else if (type == "video")
+            {
+                return Page();
+            }
+            return BadRequest();
         }
     }
 }

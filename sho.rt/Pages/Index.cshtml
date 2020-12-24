@@ -7,48 +7,110 @@
 <div class="row justify-content-center">
     <div class="col-12 col-md-10">@Model.ErrorMessage</div>
     <div class="col-12 col-md-10">
-        <form id="input_form" method="post">
-            <div class="form-group">
-                <label>Url:</label>
-                <input id="url_input" class="form-control" name="url" placeholder="https://www.google.com" />
-            </div>
-            <div class="form-group form-check">
-                <input id="need_password_checkbox" type="checkbox" class="form-check-input" />
-                <label class="form-check-label">Need Password?</label>
-            </div>
-            <div class="form-group d-none" id="password_input_group">
-                <label>Password:</label>
-                <input class="form-control" name="password" />
-            </div>
-            <div class="form-group">
-                <input class="btn btn-primary" type="submit" />
-            </div>
-        </form>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" id="url-tab" href="#url_tab_content" role="tab" aria-controls="url" aria-selected="true">Shortened Url</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" id="image-tab" href="#image_tab_content" role="tab" aria-controls="Image" aria-selected="false">Image</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" id="video-tab" href="#video_tab_content" role="tab" aria-controls="Video" aria-selected="false">Video</a>
+            </li>
+        </ul>
     </div>
-    @if (!string.IsNullOrWhiteSpace(Model.ShortenedUrl))
-    {
-        <div class="col-12 col-md-10 row align-items-center">
-            <label class="col-auto pl-0 mb-0">Shortened Url:</label>
-            <input class="form-control col" id="shortened_url_input" readonly value="@Model.ShortenedUrl" />
-            <button class="col-auto btn btn-primary" id="click_to_copy_button" onclick="clip_to_copy_shortened_url()">Click to copy!</button>
+
+    <div class="tab-content col-12 col-md-10">
+        <div class="tab-pane fade show active" id="url_tab_content" role="tabpanel" aria-labelledby="url-tab">
+            <div class="w-100">
+                <form id="input_form_url" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="type" value="url" />
+                    <div class="form-group">
+                        <label>Url:</label>
+                        <input id="url_input" class="form-control" name="url" placeholder="https://www.google.com" />
+                    </div>
+                    <div class="form-group form-check">
+                        <input id="need_password_checkbox_url" type="checkbox" class="form-check-input" />
+                        <label class="form-check-label">Need Password?</label>
+                    </div>
+                    <div class="form-group d-none" id="password_input_group_url">
+                        <label>Password:</label>
+                        <input class="form-control" name="password" />
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-primary" type="submit" />
+                    </div>
+                </form>
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.ShortenedUrl))
+            {
+                <div class="w-100 row align-items-center">
+                    <label class="col-auto pl-0 mb-0">Shortened Url:</label>
+                    <input class="form-control col" id="shortened_url_input" readonly value="@Model.ShortenedUrl" />
+                    <button class="col-auto btn btn-primary" id="click_to_copy_button" onclick="clip_to_copy_shortened_url()">Click to copy!</button>
+                </div>
+            }
         </div>
-    }
+        <div class="tab-pane fade" id="image_tab_content" role="tabpanel" aria-labelledby="image-tab">
+            <div class="w-100">
+                <form id="input_form_image" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="type" value="image" />
+                    <label class="custom-file-upload w-100">
+                        <input id="image_input" class="w-100" type="file" name="image" accept="image/*" />
+                        <i class="fa fa-upload"></i> Upload Image
+                    </label>
+                    <img id="image_previewer" class="contain vh-25 w-100" />
+                    <div class="form-group form-check">
+                        <input id="need_password_checkbox_image" type="checkbox" class="form-check-input" />
+                        <label class="form-check-label">Need Password?</label>
+                    </div>
+                    <div class="form-group d-none" id="password_input_group_image">
+                        <label>Password:</label>
+                        <input class="form-control" name="password" />
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-primary" type="submit" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="video_tab_content" role="tabpanel" aria-labelledby="video-tab"></div>
+    </div>
+
+
 </div>
 
 @section Scripts {
     <script type="text/javascript">
         window.onpageshow = function () {
-            input_form.reset();
-            need_password_checkbox.onclick = function () {
-                password_input_group.classList.toggle("d-none");
+            input_form_url.reset();
+            need_password_checkbox_url.onclick = function () {
+                password_input_group_url.classList.toggle("d-none");
+            }
+            input_form_image.reset();
+            need_password_checkbox_image.onclick = function () {
+                password_input_group_image.classList.toggle("d-none");
             }
             url_input.focus();
+            initImagePreviewer();
         }
         function clip_to_copy_shortened_url() {
             shortened_url_input.select();
             shortened_url_input.setSelectionRange(0, 99999)
             document.execCommand("copy");
             click_to_copy_button.innerText = "Copied";
+        }
+        function initImagePreviewer() {
+            image_input.addEventListener('change', function () {
+                const files = this.files || [];
+                if (!files.length) return;
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    image_previewer.src = e.target.result;
+                };
+
+                reader.readAsDataURL(files[0]);
+            });
         }
     </script>
 }

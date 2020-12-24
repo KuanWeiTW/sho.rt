@@ -20,6 +20,7 @@ namespace sho.rt.Pages
         private readonly UserManager<IdentityUser> _userManager;
         public string ErrorMessage { get; private set; } = "";
         public string ShortenedUrl { get; private set; } = "";
+        public string FormAction { get; private set; } = "";
         public VerifyPasswordModel(ILogger<IndexModel> logger, ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
@@ -27,8 +28,40 @@ namespace sho.rt.Pages
             _userManager = userManager;
         }
 
-        public IActionResult OnGet(string shortenedUrl)
+        public async Task<IActionResult> OnGet(string shortenedUrl)
         {
+            if (shortenedUrl.Length > 5)
+            {
+                var mapping = await _context.CustomMapping.FindAsync(Base62.Decode(shortenedUrl));
+                if(mapping.MappingType==MappingType.URL)
+                {
+                    FormAction = "/VerifyPassword";
+                }
+                else if (mapping.MappingType == MappingType.IMAGE)
+                {
+                    FormAction = "/Image";
+                }
+                else if(mapping.MappingType==MappingType.VIDEO)
+                {
+                    FormAction = "/Video";
+                }
+            }
+            else
+            {
+                var mapping = await _context.Mapping.FindAsync(Base62.Decode(shortenedUrl));
+                if (mapping.MappingType == MappingType.URL)
+                {
+                    FormAction = "/VerifyPassword";
+                }
+                else if (mapping.MappingType == MappingType.IMAGE)
+                {
+                    FormAction = "/Image";
+                }
+                else if (mapping.MappingType == MappingType.VIDEO)
+                {
+                    FormAction = "/Video";
+                }
+            }
             ShortenedUrl = shortenedUrl;
             return Page();
         }

@@ -14,6 +14,7 @@ namespace sho.rt.Model
     {
         [Range(26 * 26 * 26 * 26 * 26, Int64.MaxValue)]
         public Int64 Id { get; set; }
+        public MappingType MappingType { get; set; }
 
         public string Password { get; set; }
 

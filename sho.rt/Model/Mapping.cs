@@ -10,10 +10,18 @@ using sho.rt.Helper;
 
 namespace sho.rt.Model
 {
+    public enum MappingType
+    {
+        URL = 0,
+        IMAGE = 1,
+        VIDEO = 2
+    }
     public class Mapping
     {
         [Range(0, 26 * 26 * 26 * 26 * 26 - 1)]
         public Int64 Id { get; set; }
+
+        public MappingType MappingType { get; set; }
 
         public string Password { get; set; }
 
