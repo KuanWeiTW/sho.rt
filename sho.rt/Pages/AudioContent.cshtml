@@ -1,0 +1,10 @@
+﻿@page "{shortenedUrl?}"
+@model sho.rt.Pages.AudioModel
+@{
+    ViewData["Title"] = "sho.rt";
+}
+<div class="text-center h-auto">
+    <audio autoplay controls preload="auto" class="w-100" controlsList="nodownload" oncontextmenu="return false;">
+        <source src="@Model.AudioSource" type="@Model.AudioType" />
+    </audio>
+</div>

@@ -14,7 +14,8 @@ namespace sho.rt.Model
     {
         URL = 0,
         IMAGE = 1,
-        VIDEO = 2
+        VIDEO = 2,
+        AUDIO = 3
     }
     public class Mapping
     {

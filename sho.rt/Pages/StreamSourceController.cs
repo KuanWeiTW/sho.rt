@@ -13,21 +13,21 @@ namespace sho.rt.Pages
 {
     [Route("[controller]")]
     [ApiController]
-    public class VideoStreamSourceController : ControllerBase
+    public class StreamSourceController : ControllerBase
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public VideoStreamSourceController(ILogger<IndexModel> logger, ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public StreamSourceController(ILogger<IndexModel> logger, ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
         }
 
-        [HttpGet("/VideoStreamSource")]
-        public ActionResult VideoSource(string shortenedUrl, string password)
+        [HttpGet("/StreamSource")]
+        public ActionResult StreamSource(string shortenedUrl, string password)
         {
             if (shortenedUrl.Length > 5)
             {

@@ -45,6 +45,10 @@ namespace sho.rt.Pages
                 {
                     FormAction = "/VideoContent";
                 }
+                else if (mapping.MappingType == MappingType.AUDIO)
+                {
+                    FormAction = "/AudioContent";
+                }
             }
             else
             {
@@ -60,6 +64,10 @@ namespace sho.rt.Pages
                 else if (mapping.MappingType == MappingType.VIDEO)
                 {
                     FormAction = "/VideoContent";
+                }
+                else if (mapping.MappingType == MappingType.AUDIO)
+                {
+                    FormAction = "/AudioContent";
                 }
             }
             ShortenedUrl = shortenedUrl;

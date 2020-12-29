@@ -11,16 +11,16 @@ using sho.rt.Helper;
 
 namespace sho.rt.Pages
 {
-    public class VideoModel : PageModel
+    public class AudioModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public string VideoSource { get; private set; }
-        public string VideoType { get; private set; }
+        public string AudioSource { get; private set; }
+        public string AudioType { get; private set; }
 
-        public VideoModel(ILogger<IndexModel> logger, ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public AudioModel(ILogger<IndexModel> logger, ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
             _context = context;
@@ -37,8 +37,8 @@ namespace sho.rt.Pages
                 }
                 else
                 {
-                    VideoSource = "/StreamSource?shortenedUrl=" + shortenedUrl;
-                    VideoType = "video/" + mapping.Original.Split(".").Last();
+                    AudioSource = "/StreamSource?shortenedUrl=" + shortenedUrl;
+                    AudioType = "audio/" + mapping.Original.Split(".").Last();
                     return Page();
                 }
             }
@@ -51,8 +51,8 @@ namespace sho.rt.Pages
                 }
                 else
                 {
-                    VideoSource = "/StreamSource?shortenedUrl=" + shortenedUrl;
-                    VideoType = "video/" + mapping.Original.Split(".").Last();
+                    AudioSource = "/StreamSource?shortenedUrl=" + shortenedUrl;
+                    AudioType = "audio/" + mapping.Original.Split(".").Last();
                     return Page();
                 }
             }
@@ -68,8 +68,8 @@ namespace sho.rt.Pages
                 }
                 else
                 {
-                    VideoSource = "/StreamSource?shortenedUrl=" + shortenedUrl + "password=" + password;
-                    VideoType = "video/" + mapping.Original.Split(".").Last();
+                    AudioSource = "/StreamSource?shortenedUrl=" + shortenedUrl + "password=" + password;
+                    AudioType = "audio/" + mapping.Original.Split(".").Last();
                     return Page();
                 }
             }
@@ -82,8 +82,8 @@ namespace sho.rt.Pages
                 }
                 else
                 {
-                    VideoSource = "/StreamSource?shortenedUrl=" + shortenedUrl + "&password=" + password;
-                    VideoType = "video/" + mapping.Original.Split(".").Last();
+                    AudioSource = "/StreamSource?shortenedUrl=" + shortenedUrl + "&password=" + password;
+                    AudioType = "audio/" + mapping.Original.Split(".").Last();
                     return Page();
                 }
             }

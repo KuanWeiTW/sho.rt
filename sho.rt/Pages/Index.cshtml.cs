@@ -77,6 +77,10 @@ namespace sho.rt.Pages
                     {
                         return RedirectToPage("./VideoContent", new { shortenedUrl = shortenedUrl });
                     }
+                    else if (mapping.MappingType == MappingType.AUDIO)
+                    {
+                        return RedirectToPage("./AudioContent", new { shortenedUrl = shortenedUrl });
+                    }
                     else
                     {
                         return BadRequest();
@@ -85,7 +89,7 @@ namespace sho.rt.Pages
             }
         }
 
-        public async Task<IActionResult> OnPost(string type, string url, IFormFile image, IFormFile video, string password)
+        public async Task<IActionResult> OnPost(string type, string url, IFormFile image, IFormFile video, IFormFile audio, string password)
         {
             if (type == "url")
             {
@@ -156,6 +160,33 @@ namespace sho.rt.Pages
                     Mapping mapping = new Mapping
                     {
                         MappingType = MappingType.VIDEO,
+                        Original = stored_name,
+                        Password = password,
+                        Owner = await _userManager.GetUserAsync(HttpContext.User)
+                    };
+
+                    _context.Add(mapping);
+                    await _context.SaveChangesAsync();
+                    ShortenedUrl = Url.Page("/Index", null, new { shortenedUrl = "" }, protocol: Request.Scheme) + mapping.ShortenedUrl;
+                }
+                return Page();
+            }
+            else if (type == "audio")
+            {
+                if (audio == null)
+                {
+                    ErrorMessage = "audio is empty";
+                }
+                else
+                {
+                    string stored_name = System.IO.Path.Combine(FILE_STORE, Guid.NewGuid() + Path.GetExtension(audio.FileName));
+                    using (Stream fileStream = new FileStream(stored_name, FileMode.Create, FileAccess.Write))
+                    {
+                        await audio.CopyToAsync(fileStream);
+                    }
+                    Mapping mapping = new Mapping
+                    {
+                        MappingType = MappingType.AUDIO,
                         Original = stored_name,
                         Password = password,
                         Owner = await _userManager.GetUserAsync(HttpContext.User)
